@@ -1,5 +1,9 @@
 package oncall;
 
+import static oncall.util.Validator.checkSize;
+import static oncall.util.Validator.removeBlank;
+import static oncall.util.Validator.validateStartDay;
+import static oncall.util.Validator.validateStartMonth;
 import static oncall.view.InputView.readStartMonthAndDay;
 
 import java.util.List;
@@ -11,35 +15,10 @@ public class Application {
     }
 
     private static void validateStartMonthAndDay(String inputForStartMonthAndDay) {
-        List<String> startMonthAndDay = List.of(inputForStartMonthAndDay.split(","));
+        List<String> startMonthAndDay = removeBlank(inputForStartMonthAndDay.split(","));
         checkSize(startMonthAndDay);
         validateStartMonth(startMonthAndDay.getFirst());
-
+        validateStartDay(startMonthAndDay.getLast());
     }
 
-    static void checkSize(List<String> startMonthAndDay) {
-        if (startMonthAndDay.size() != 2) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-        }
-    }
-
-    static void validateStartMonth(String month) {
-        try {
-            int monthInput = Integer.parseInt(month);
-            if (!isValidMonth(monthInput)) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-            }
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.");
-        }
-    }
-
-    static boolean isValidMonth(int monthInput) {
-        for (MonthInfo monthInfo : MonthInfo.values()) {
-            if (monthInfo.getMonth() == monthInput) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
