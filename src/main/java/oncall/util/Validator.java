@@ -6,7 +6,14 @@ import oncall.MonthInfo;
 
 public class Validator {
 
-    private static final String INVALID_INPUT = "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요.";
+    private static final String INVALID_INPUT = "유효하지 않은 입력 값입니다. 다시 입력해 주세요.";
+
+    public static void validateStartMonthAndDay(String inputForStartMonthAndDay) {
+        List<String> startMonthAndDay = removeBlank(inputForStartMonthAndDay.split(","));
+        checkSize(startMonthAndDay);
+        validateStartMonth(startMonthAndDay.getFirst());
+        validateStartDay(startMonthAndDay.getLast());
+    }
 
     public static void checkSize(List<String> startMonthAndDay) {
         if (startMonthAndDay.size() != 2) {
